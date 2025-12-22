@@ -31,13 +31,27 @@ void generateGrid(Grid* gridPtr){
 
 }
 
-int getPosition(int i,int j, Grid* gridPtr){
+void freeGrid(Grid* gridPtr){
+    free(gridPtr->cells);
+}
+
+int getPosition(int x,int y, Grid* gridPtr){
     int cols = gridPtr->colSize;
     int rows = gridPtr->rowSize;
 
+    int position = rows * y + x;
 
-    return 0; 
+    return position; 
 }
+
+Vector2 getCordinates(int position,Grid* gridPtr){
+    int cols = gridPtr->colSize;
+    int rows = gridPtr->rowSize;
+    Vector2 pos = {(float)(position%cols),(float)(position/rows)};
+    return pos;    
+}
+
+
 
 
 

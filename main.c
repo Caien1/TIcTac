@@ -4,8 +4,8 @@
 
 #define HEIGHT 800
 #define WIDTH 800
-#define COLS 3
-#define ROWS 3
+#define COLS 100
+#define ROWS 100
 
 
 
@@ -27,7 +27,6 @@ int main(){
 
     Vector2 pos;
 
-    TURN turn = CROSS;
 
 
 
@@ -49,17 +48,17 @@ int main(){
                 pos = GetMousePosition();
                 pos.x = (int)pos.x/cellWidth;
                 pos.y = (int)pos.y/cellHeight;
-                printf("cell [x,y] %d,%d \n",(int)pos.x,(int)pos.y);
+
+                int x = (int)pos.x;
+                int y = (int)pos.y;
+                int position =  getPosition(x,y,&grid);
+                Vector2 cord = getCordinates(position,&grid);
+                printf("cell [x,y] %d,%d, position %d , coords [] %lf,%lf\n",x ,y ,position,cord.x,cord.y);
 
 
                 /*-------------------TURN SWITCHER---------------------------*/
 
-                    if(turn == CIRCLE){
-                      turn =CROSS;
-                    }else{
-                        turn = CIRCLE;
-                    }
-
+              
                 /*___________________ TURN SWITCHER END_______________________*/
 
 
@@ -84,25 +83,15 @@ int main(){
             
         /*___________________Draw grid lines  END_______________________*/
 
-
-        /*-------------------Draw Circle----------------------------*/
-
-         //  DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
-            if(turn == CIRCLE){
-                DrawCircle(pos.x*cellWidth +cellWidth/2 ,pos.y*cellHeight + cellWidth/2 ,cellWidth/2-5,RAYWHITE);
-                DrawCircle(pos.x*cellWidth +cellWidth/2 ,pos.y*cellHeight + cellWidth/2 ,cellWidth/2 -15,BLACK);
-            }
-                    /*___________________Draw Circle End______________________________*/
+       
+        
+        
+         DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
 
 
 
-        /*-----------------------Draw Cross------------------------------------*/
-            if(turn == CROSS){
-                DrawLineEx((Vector2){pos.x*cellWidth, pos.y*cellHeight}, (Vector2){pos.x*cellWidth+cellWidth ,pos.y*cellHeight+cellHeight},6,RAYWHITE);
-                DrawLineEx((Vector2){pos.x*cellWidth + cellWidth  , pos.y * cellHeight}, (Vector2){pos.x*cellWidth   ,pos.y*cellHeight +cellHeight},6,RAYWHITE);
-            }
-                   
-        /*______________________Draw Cross End_____________________________*/
+
+           
          ClearBackground(defaultBgColor);
 
 
@@ -110,7 +99,9 @@ int main(){
     }
 
     //--------------------------------------------------------------------------------------
-    CloseWindow();        
+
+    CloseWindow(); 
+    freeGrid(&grid);
     //--------------------------
 }
 
