@@ -4,8 +4,8 @@
 
 #define HEIGHT 800
 #define WIDTH 800
-#define COLS 3
-#define ROWS 3
+#define COLS 100
+#define ROWS 100
 
 
 
@@ -84,23 +84,27 @@ int main(){
             
         /*___________________Draw grid lines  END_______________________*/
 
+        
+         DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
+
+
+
 
         /*-------------------Draw Circle----------------------------*/
 
-         //  DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
-            if(turn == CIRCLE){
-                DrawCircle(pos.x*cellWidth +cellWidth/2 ,pos.y*cellHeight + cellWidth/2 ,cellWidth/2-5,RAYWHITE);
-                DrawCircle(pos.x*cellWidth +cellWidth/2 ,pos.y*cellHeight + cellWidth/2 ,cellWidth/2 -15,BLACK);
-            }
-                    /*___________________Draw Circle End______________________________*/
+            // if(turn == CIRCLE){
+            //     DrawCircle(pos.x*cellWidth +cellWidth/2 ,pos.y*cellHeight + cellWidth/2 ,cellWidth/2-5,RAYWHITE);
+            //     DrawCircle(pos.x*cellWidth +cellWidth/2 ,pos.y*cellHeight + cellWidth/2 ,cellWidth/2 -15,BLACK);
+            // }
+        /*___________________Draw Circle End______________________________*/
 
 
 
         /*-----------------------Draw Cross------------------------------------*/
-            if(turn == CROSS){
-                DrawLineEx((Vector2){pos.x*cellWidth, pos.y*cellHeight}, (Vector2){pos.x*cellWidth+cellWidth ,pos.y*cellHeight+cellHeight},6,RAYWHITE);
-                DrawLineEx((Vector2){pos.x*cellWidth + cellWidth  , pos.y * cellHeight}, (Vector2){pos.x*cellWidth   ,pos.y*cellHeight +cellHeight},6,RAYWHITE);
-            }
+            // if(turn == CROSS){
+            //     DrawLineEx((Vector2){pos.x*cellWidth, pos.y*cellHeight}, (Vector2){pos.x*cellWidth+cellWidth ,pos.y*cellHeight+cellHeight},6,RAYWHITE);
+            //     DrawLineEx((Vector2){pos.x*cellWidth + cellWidth  , pos.y * cellHeight}, (Vector2){pos.x*cellWidth   ,pos.y*cellHeight +cellHeight},6,RAYWHITE);
+            // }
                    
         /*______________________Draw Cross End_____________________________*/
          ClearBackground(defaultBgColor);
