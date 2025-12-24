@@ -4,8 +4,8 @@
 
 #define HEIGHT 800
 #define WIDTH 800
-#define COLS 100
-#define ROWS 100
+#define COLS 10
+#define ROWS 10
 
 
 
@@ -25,7 +25,7 @@ int main(){
     int cellHeight = HEIGHT/ROWS;
 
 
-    Vector2 pos;
+    Vector2 coords;
 
 
 
@@ -45,33 +45,19 @@ int main(){
         /*-------------------Input Section-----------------------*/
     
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                pos = GetMousePosition();
-                pos.x = (int)pos.x/cellWidth;
-                pos.y = (int)pos.y/cellHeight;
-
-                int x = (int)pos.x;
-                int y = (int)pos.y;
-                int position =  getPosition(x,y,&grid);
-                Vector2 cord = getCordinates(position,&grid);
-                printf("cell [x,y] %d,%d, position %d , coords [] %lf,%lf\n",x ,y ,position,cord.x,cord.y);
-
-
-                /*-------------------TURN SWITCHER---------------------------*/
-
-              
-                /*___________________ TURN SWITCHER END_______________________*/
-
-
-
+                coords = GetMousePosition();
+                int position = getPosition((int)coords.x/cellWidth,(int)coords.y/cellWidth,&grid);
+                flipBit(grid.cells, position);
             }
         
         /*___________________Input Section END_______________________*/
 
-                BeginDrawing();
+        
+        BeginDrawing();
 
 
 
-        /*-----------------Draw Grid lines -----------------------*/
+        /*-----------------------Draw Grid lines -----------------------*/
         
             for(int i=0; i<grid.colSize; i++){
                 DrawLine(i*cellWidth,0,i*cellWidth,screenHeight,RAYWHITE);
@@ -84,15 +70,23 @@ int main(){
         /*___________________Draw grid lines  END_______________________*/
 
        
-        
-        
-         DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
+        /*---------------------Draw Cells ---------------------------------*/
+        for(int i = 0; i < grid.colSize*grid.rowSize ; i++){
+            if(1){
+                Vector2 pos = getCordinates(i,&grid);
+                // DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
+                char * num ;
+                sprintf(num,"%d",i);
+                DrawText(num,pos.x*cellWidth+ cellWidth/2,pos.y*cellHeight + cellHeight/2,30,RAYWHITE);
 
+            }
+        }
 
+        /*__________________Draw cells end_________________________________*/
 
 
            
-         ClearBackground(defaultBgColor);
+        ClearBackground(defaultBgColor);
 
 
         EndDrawing();
@@ -101,7 +95,9 @@ int main(){
     //--------------------------------------------------------------------------------------
 
     CloseWindow(); 
+
+    /*----------------------De-Allocating stuff--------------*/
     freeGrid(&grid);
-    //--------------------------
+    /*_______________________________________________________*/
 }
 
