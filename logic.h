@@ -173,6 +173,7 @@ int aliveNeighbourSum(int position , Grid *gridPtr){
     //Edege case
     if(isEdegeCell(position,gridPtr)){
         sum = edegeCellNeighbourSum(position,gridPtr,belowIndex,aboveIndex,arr);
+        return sum;
     }
 
     
