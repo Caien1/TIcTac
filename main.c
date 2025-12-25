@@ -1,6 +1,9 @@
 #include <raylib.h>
 #include <stdio.h>
+
+
 #include "logic.h"
+#include "logic.c"
 
 #define HEIGHT 800
 #define WIDTH 800
@@ -65,7 +68,7 @@ int main(){
 
         /*-------------------Compute Next life cycle-----------------*/
     
-            
+
 
         /*___________________COmpute Nex Life Cycle END______________*/
 
@@ -108,7 +111,6 @@ int main(){
 
             }
         }
-        WaitTime(3);
 
         /*__________________Draw cells end_________________________________*/
 
@@ -131,8 +133,8 @@ int main(){
     CloseWindow(); 
 
     /*----------------------De-Allocating stuff--------------*/
-    freeGrid(&grid.cells);
-    freeGrid(&buffer.cells);
+    freeGrid(&grid);
+    freeGrid(&buffer);
     /*_______________________________________________________*/
 }
 
