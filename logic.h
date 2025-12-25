@@ -57,9 +57,13 @@ void flipBit(bool* arr, int position){
         arr[position]= !arr[position];
 }
 
+
+
+
 int aliveNeighbourSum(int position , Grid *gridPtr){
     int colsize = gridPtr->colSize;
     int rowsize = gridPtr->rowSize;
+    bool * arr = gridPtr->cells;
     
     int aboveIndex = position - rowsize;
     int belowIndex = position + colsize;
@@ -79,35 +83,62 @@ int aliveNeighbourSum(int position , Grid *gridPtr){
     */
     //corner cases
     if(coords.x <= 0 && coords.y<=0){
-        
+       sum =   arr[position+1]+arr[belowIndex]+arr[belowIndex+1];
+       return sum;
     }
-
-    if(coords.x <= 0 && coords.y >=colsize ){
-
+    if(coords.x <= 0 && coords.y >=colsize-1 ){
+        sum =   arr[position-1]+arr[belowIndex]+arr[belowIndex-1];
+        return sum;
     }
-
-
-
     if(coords.x >= rowsize-1 && coords.y <=0 ){
-
+        sum =   arr[aboveIndex]+arr[aboveIndex+1]+arr[position+1];
+        return sum;
     }
-
     if(coords.x >= rowsize-1 && coords.y >= colsize-1 ){
+        sum =   arr[aboveIndex-1]+arr[aboveIndex]+arr[position-1];
+        return sum;
 
+    }
+
+    //Edege case
+
+     if(coords.x <= 0 ){
+       sum =    arr[position+1]+
+                arr[belowIndex]+ arr[belowIndex+1]+
+                arr[aboveIndex]+ arr[aboveIndex+1];
+       return sum;
+    }
+
+    if(coords.y <= 0){
+        sum =   arr[position-1]+arr[position+1]+
+                arr[belowIndex-1]+ arr[belowIndex]+ arr[belowIndex+1];
+        return sum;
+
+    }
+    if( coords.y >=colsize-1){
+         sum =   arr[position-1]+arr[position+1]+
+                arr[aboveIndex-1]+ arr[aboveIndex]+ arr[aboveIndex+1];
+        return sum;
+
+    }
+    if( coords.x >= rowsize-1){
+           sum =    arr[position-1]+
+                arr[belowIndex]+ arr[belowIndex-1]+
+                arr[aboveIndex]+ arr[aboveIndex-1];
+            return sum;
     }
 
 
 
 
 
-
-    //if cell not in border
+    //if cell not in corner or edege
     
    
 
 
     for(int i=0;i< 8;i++){
-        sum+= gridPtr->cells[neighbourIndices[i]];
+        sum+= arr[neighbourIndices[i]];
     }
 
     return sum;
