@@ -17,17 +17,13 @@ int main(){
     const int screenHeight = HEIGHT;
  
  
-    Grid grid;
-    grid.colSize=COLS;
-    grid.rowSize=ROWS;
-
-    Grid buffer;
-    buffer.colSize=COLS;
-    buffer.rowSize=ROWS;
+    Grid grid = {ROWS,COLS,NULL};
+    Grid buffer={ROWS,COLS,NULL};
 
     int cellWidth = WIDTH/COLS;
     int cellHeight = HEIGHT/ROWS;
 
+    bool running = true;
 
     Vector2 coords;
 
@@ -47,22 +43,34 @@ int main(){
 
     while (!WindowShouldClose())    
     {
+        
+
+
         /*-------------------Input Section-----------------------*/
     
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 coords = GetMousePosition();
                 int position = getPosition((int)coords.x/cellWidth,(int)coords.y/cellWidth,&grid);
-                flipBit(grid.cells, position);
+                flipBit(buffer.cells, position);
+            }
+
+
+            if(IsKeyPressed(KEY_E)){
+                running = !running;
+                printf("running %d\n",running);
             }
         
-        /*___________________Input Section END_______________________*/
+        /*__________________Input Section END_______________________*/
+
+
         /*-------------------Compute Next life cycle-----------------*/
-
-
+    
+            
 
         /*___________________COmpute Nex Life Cycle END______________*/
 
-        
+     
+    /*------------------------Just render here--------------------------*/
         BeginDrawing();
 
 
@@ -82,15 +90,25 @@ int main(){
        
         /*---------------------Draw Cells ---------------------------------*/
         for(int i = 0; i < grid.colSize*grid.rowSize ; i++){
-            if(1){
+
+            if(running){
+             int sum = aliveNeighbourSum(i,&grid);
+                 if(sum<2 || sum>3){
+                    buffer.cells[i]=0;
+                 }else{
+                    buffer.cells[i]=1;
+                 }
+                
+                }
+
+
+            if(grid.cells[i]==1){
                 Vector2 pos = getCordinates(i,&grid);
-                // DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
-                char * num ;
-                sprintf(num,"%d",i);
-                DrawText(num,pos.x*cellWidth+ cellWidth/2,pos.y*cellHeight + cellHeight/2,30,RAYWHITE);
+                 DrawRectangle(pos.x*cellWidth,pos.y*cellHeight,cellWidth,cellHeight,RAYWHITE);
 
             }
         }
+        WaitTime(3);
 
         /*__________________Draw cells end_________________________________*/
 
@@ -100,14 +118,21 @@ int main(){
 
 
         EndDrawing();
+
+    /*________________________Render HERE ENds_____________________________________*/    
+
+      for(int i =0; i< grid.rowSize* grid.colSize;i++){
+        grid.cells[i]=buffer.cells[i];
+      }
+
     }
 
-    //--------------------------------------------------------------------------------------
 
     CloseWindow(); 
 
     /*----------------------De-Allocating stuff--------------*/
-    freeGrid(&grid);
+    freeGrid(&grid.cells);
+    freeGrid(&buffer.cells);
     /*_______________________________________________________*/
 }
 

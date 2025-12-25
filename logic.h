@@ -25,6 +25,7 @@ Color colorTable[] = {
 
 /*______________________COLOR SECTION END_______________________*/
 
+/*-------------------HelperFunctions---------------------------*/
 void generateGrid(Grid* gridPtr){
 
     int gridSize =  gridPtr->rowSize * gridPtr->colSize;
@@ -41,7 +42,8 @@ int getPosition(int x,int y, Grid* gridPtr){
     int cols = gridPtr->colSize;
     int rows = gridPtr->rowSize;
 
-    int position = rows * y + x;
+    int position = y * gridPtr->colSize + x;
+
 
     return position; 
 }
@@ -49,7 +51,7 @@ int getPosition(int x,int y, Grid* gridPtr){
 Vector2 getCordinates(int position,Grid* gridPtr){
     int cols = gridPtr->colSize;
     int rows = gridPtr->rowSize;
-    Vector2 pos = {(float)(position%cols),(float)(position/rows)};
+    Vector2 pos = {(float)(position%cols),(float)(position/cols)};
     return pos;    
 }
 
@@ -57,7 +59,6 @@ void flipBit(bool* arr, int position){
         arr[position]= !arr[position];
 }
 
-/*-------------------HelperFunctions---------------------------*/
 bool isCornerCell(int position, Grid* gridPtr){
     Vector2 coord= getCordinates(position,gridPtr);
     if(
@@ -69,6 +70,7 @@ bool isCornerCell(int position, Grid* gridPtr){
         return true;
     }
 
+    return false;
 
 
 }
@@ -84,6 +86,7 @@ bool isEdegeCell(int position, Grid* gridPtr){
     {
         return true;
     }
+    return false;
 
 }
 
@@ -111,6 +114,8 @@ int cornerCellNeighbourSum(int position,Grid* gridPtr,int belowIndex, int aboveI
         return sum;
 
     }
+
+    return -911;
 }
 
 int edegeCellNeighbourSum(int position,Grid* gridPtr,int belowIndex, int aboveIndex,bool*arr){
@@ -146,16 +151,18 @@ int edegeCellNeighbourSum(int position,Grid* gridPtr,int belowIndex, int aboveIn
             return sum;
     }
 
+    return -911;
 
 }
 
 int aliveNeighbourSum(int position , Grid *gridPtr){
 
+
     int colsize = gridPtr->colSize;
     int rowsize = gridPtr->rowSize;
     bool * arr = gridPtr->cells;
     
-    int aboveIndex = position - rowsize;
+    int aboveIndex = position - colsize;
     int belowIndex = position + colsize;
     int neighbourIndices[] = {
                              aboveIndex-1,aboveIndex,aboveIndex+1,
@@ -164,13 +171,13 @@ int aliveNeighbourSum(int position , Grid *gridPtr){
                              };
     int sum = 0;
 
-    //corner cases
+    // corner cases
     if(isCornerCell(position,gridPtr)){
         sum = cornerCellNeighbourSum(position, gridPtr,belowIndex,aboveIndex, arr);
         return sum;
     }
 
-    //Edege case
+    //Edege cases (no pun intended)
     if(isEdegeCell(position,gridPtr)){
         sum = edegeCellNeighbourSum(position,gridPtr,belowIndex,aboveIndex,arr);
         return sum;
