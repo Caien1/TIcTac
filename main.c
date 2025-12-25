@@ -21,6 +21,10 @@ int main(){
     grid.colSize=COLS;
     grid.rowSize=ROWS;
 
+    Grid buffer;
+    buffer.colSize=COLS;
+    buffer.rowSize=ROWS;
+
     int cellWidth = WIDTH/COLS;
     int cellHeight = HEIGHT/ROWS;
 
@@ -32,6 +36,7 @@ int main(){
 
     /*-------------Allocations Section Starts---------------*/
     generateGrid(&grid);
+    generateGrid(&buffer);
     /*_______________Allocation Section End______________________*/
 
 
@@ -51,6 +56,11 @@ int main(){
             }
         
         /*___________________Input Section END_______________________*/
+        /*-------------------Compute Next life cycle-----------------*/
+
+
+
+        /*___________________COmpute Nex Life Cycle END______________*/
 
         
         BeginDrawing();
